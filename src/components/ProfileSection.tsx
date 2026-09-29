@@ -257,13 +257,13 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
   };
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4 overflow-y-auto">
+    <div className="fixed inset-0 z-50 bg-black/65 backdrop-blur-xs flex items-center justify-center p-2.5 sm:p-4 overflow-y-auto">
       <div 
         onClick={(e) => e.stopPropagation()}
-        className="bg-white text-stone-900 rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden relative animate-in fade-in zoom-in-95 my-auto"
+        className="bg-white text-stone-900 rounded-2xl shadow-2xl max-w-lg w-full max-h-[92vh] flex flex-col overflow-hidden relative animate-in fade-in zoom-in-95 my-auto"
       >
         {/* Modal Header */}
-        <div className="bg-[#131921] text-white p-4 sm:p-5 flex items-center justify-between">
+        <div className="bg-[#131921] text-white p-3.5 sm:p-5 flex items-center justify-between shrink-0">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-500 text-stone-950 font-bold flex items-center justify-center text-lg shadow-md font-serif">
               {userProfile.isLoggedIn ? (
@@ -332,7 +332,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         {/* VIEW 1: PROFILE MANAGEMENT (LOGGED IN)                             */}
         {/* ------------------------------------------------------------------ */}
         {mode === 'profile' && (
-          <div className="p-5 sm:p-6 space-y-4">
+          <div className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1">
             {/* Account Status Strip */}
             <div className="bg-stone-50 rounded-xl p-3 border border-stone-200 flex items-center justify-between text-xs">
               <div className="flex items-center gap-2">
@@ -517,7 +517,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         {/* VIEW 2: LOGIN FORM (EMAIL + 5-DIGIT PASSWORD)                     */}
         {/* ------------------------------------------------------------------ */}
         {mode === 'login' && (
-          <form onSubmit={handleLoginSubmit} className="p-5 sm:p-6 space-y-4">
+          <form onSubmit={handleLoginSubmit} className="p-4 sm:p-6 space-y-4 overflow-y-auto flex-1">
             <div className="text-center pb-1">
               <span className="text-3xl block mb-1">🔐</span>
               <h3 className="font-bold text-base text-stone-900">Welcome Back</h3>
@@ -613,7 +613,7 @@ export const ProfileSection: React.FC<ProfileSectionProps> = ({
         {/* VIEW 3: SIGN UP FORM (FULL DETAILS + 5-DIGIT PASSWORD)            */}
         {/* ------------------------------------------------------------------ */}
         {mode === 'signup' && (
-          <form onSubmit={handleSignupSubmit} className="p-5 sm:p-6 space-y-3.5">
+          <form onSubmit={handleSignupSubmit} className="p-4 sm:p-6 space-y-3.5 overflow-y-auto flex-1">
             <div className="text-center pb-1">
               <span className="text-3xl block mb-1">📝</span>
               <h3 className="font-bold text-base text-stone-900">Create Account</h3>

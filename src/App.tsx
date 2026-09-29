@@ -255,7 +255,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-stone-100 flex flex-col selection:bg-amber-500 selection:text-stone-950 pb-16 md:pb-0">
+    <div className="min-h-screen bg-stone-100 flex flex-col selection:bg-amber-500 selection:text-stone-950 pb-20 md:pb-0">
       {/* 1. Amazon-Style Header */}
       <Header
         activeCategory={activeCategory}

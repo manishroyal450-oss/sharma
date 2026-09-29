@@ -109,80 +109,234 @@ export const Header: React.FC<HeaderProps> = ({
         </div>
       </div>
 
-      {/* Main Amazon-style Header Row */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-4 py-2.5 flex items-center gap-2 sm:gap-4 justify-between">
-        {/* Brand Zone */}
-        <div className="flex items-center gap-2 shrink-0">
-          <button 
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
-            className="md:hidden p-1.5 hover:bg-stone-800 rounded text-stone-200 cursor-pointer"
-            aria-label="Toggle menu"
+      {/* Main Header Content */}
+      <div className="max-w-7xl mx-auto">
+        {/* Row 1: Brand & Actions (Responsive layout) */}
+        <div className="px-3 sm:px-4 py-2 sm:py-2.5 flex items-center gap-2 sm:gap-4 justify-between">
+          {/* Brand Zone */}
+          <div className="flex items-center gap-1.5 sm:gap-2 shrink-0">
+            <button 
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} 
+              className="md:hidden p-1.5 hover:bg-stone-800 rounded text-stone-200 cursor-pointer"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? <X className="w-5 h-5 sm:w-6 sm:h-6" /> : <Menu className="w-5 h-5 sm:w-6 sm:h-6" />}
+            </button>
+
+            <a 
+              href="#" 
+              onClick={(e) => { e.preventDefault(); onSelectCategory('all'); onSearchChange(''); }}
+              className="flex items-center gap-2 group text-left cursor-pointer"
+            >
+              <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-lg bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 flex items-center justify-center text-white font-serif font-black shadow-md border border-amber-400/40 text-base sm:text-lg">
+                S
+              </div>
+              <div className="leading-tight">
+                <span className="text-sm sm:text-lg md:text-xl font-bold tracking-tight font-serif text-white group-hover:text-amber-400 transition-colors block">
+                  Sharma Confectioners
+                </span>
+                <span className="hidden xs:block text-[9px] sm:text-[10px] uppercase tracking-widest text-amber-400 font-semibold">
+                  Royal Sweets & Bakery
+                </span>
+              </div>
+            </a>
+          </div>
+
+          {/* Owner's Shop Location in Header (Desktop) */}
+          <button
+            onClick={() => setIsShopLocationModalOpen(true)}
+            className="hidden lg:flex items-center gap-2 px-2.5 py-1.5 hover:border hover:border-white rounded text-left transition-all cursor-pointer shrink-0 bg-stone-850/50 hover:bg-stone-800"
+            title="Click to view shop address and Google Map location"
           >
-            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
+            <div className="text-xs leading-none">
+              <span className="text-stone-400 block text-[10px] font-medium">Owner's Shop</span>
+              <span className="font-bold text-white tracking-tight flex items-center gap-0.5">
+                Station Rd, Chandpur
+                <ChevronDown className="w-3 h-3 text-stone-400" />
+              </span>
+            </div>
           </button>
 
-          <a 
-            href="#" 
-            onClick={(e) => { e.preventDefault(); onSelectCategory('all'); onSearchChange(''); }}
-            className="flex items-center gap-2 group text-left cursor-pointer"
-          >
-            <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 flex items-center justify-center text-white font-serif font-black shadow-md border border-amber-400/40 text-lg">
-              S
+          {/* Desktop Search Bar (hidden on mobile, rendered below on mobile for 100% width) */}
+          <div className="hidden md:block flex-1 max-w-2xl relative mx-2">
+            <div className="flex items-center rounded-md overflow-hidden bg-white focus-within:ring-2 focus-within:ring-amber-500 shadow-inner">
+              <select
+                value={selectedSearchCategory}
+                onChange={(e) => {
+                  const cat = e.target.value as CategoryKey;
+                  setSelectedSearchCategory(cat);
+                  onSelectCategory(cat);
+                }}
+                className="bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs px-2.5 py-2.5 border-r border-stone-300 outline-none cursor-pointer hidden lg:block shrink-0 max-w-[130px] truncate"
+              >
+                <option value="all">All Sweets</option>
+                {CATEGORIES.map(c => (
+                  <option key={c.key} value={c.key}>{c.name}</option>
+                ))}
+              </select>
+
+              <div className="relative flex-1">
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => onSearchChange(e.target.value)}
+                  onFocus={() => setShowSearchSuggestions(true)}
+                  placeholder="Search dark chocolate, kaju katli, macarons, sugar-free..."
+                  className="w-full px-3 py-2 text-stone-900 text-sm outline-none placeholder:text-stone-400"
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => onSearchChange('')}
+                    className="absolute right-2 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 p-1 cursor-pointer"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+
+              <button 
+                onClick={() => setShowSearchSuggestions(false)}
+                className="bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-stone-950 px-4 py-2.5 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+                aria-label="Search"
+              >
+                <Search className="w-4 h-4 font-bold" />
+              </button>
             </div>
-            <div className="leading-tight">
-              <span className="text-base sm:text-lg md:text-xl font-bold tracking-tight font-serif text-white group-hover:text-amber-400 transition-colors">
-                Sharma Confectioners
-              </span>
-              <span className="block text-[10px] uppercase tracking-widest text-amber-400 font-semibold">
-                Royal Sweets & Bakery
-              </span>
+
+            {/* Desktop Search Dropdown Suggestions */}
+            {showSearchSuggestions && !searchQuery && (
+              <div 
+                onMouseDown={(e) => e.preventDefault()}
+                className="absolute left-0 right-0 top-full mt-1 bg-white text-stone-900 shadow-2xl rounded-md border border-stone-200 p-3 z-50 animate-in fade-in slide-in-from-top-1"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
+                    Popular Confectionery Searches
+                  </span>
+                  <button 
+                    onClick={() => setShowSearchSuggestions(false)}
+                    className="text-xs text-stone-400 hover:text-stone-600 cursor-pointer"
+                  >
+                    Close
+                  </button>
+                </div>
+                <div className="flex flex-wrap gap-1.5">
+                  {popularSearches.map((term) => (
+                    <button
+                      key={term}
+                      onClick={() => handleSuggestionClick(term)}
+                      className="text-xs bg-stone-100 hover:bg-amber-50 hover:text-amber-900 border border-stone-200 px-2.5 py-1 rounded transition-colors text-left cursor-pointer flex items-center gap-1.5"
+                    >
+                      <Search className="w-3 h-3 text-stone-400" />
+                      <span>{term}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right Action Zone (Account and Cart) */}
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
+            {/* Mobile Account Icon */}
+            <button
+              onClick={() => onOpenProfile()}
+              className="md:hidden p-1.5 hover:bg-stone-800 rounded text-stone-200 hover:text-white cursor-pointer relative"
+              aria-label="Account Profile"
+              title="Open Account Profile"
+            >
+              <User className="w-5 h-5 text-amber-400" />
+            </button>
+
+            {/* Desktop Account & Profile (Amazon Style) */}
+            <div className="relative hidden md:block">
+              <button
+                onClick={() => onOpenProfile()}
+                onMouseEnter={() => setIsAccountDropdownOpen(true)}
+                className="px-2.5 py-1 hover:border hover:border-white rounded text-left transition-all cursor-pointer flex items-center gap-1"
+              >
+                <div className="text-xs leading-none">
+                  <span className="text-stone-400 block text-[11px]">
+                    {userProfile?.isLoggedIn ? `Hello, ${userProfile.name.split(' ')[0]}` : 'Hello, Sign In'}
+                  </span>
+                  <span className="font-bold text-white flex items-center gap-0.5">
+                    {userProfile?.isLoggedIn ? 'Your Account' : 'Login / Register'}
+                    <ChevronDown className="w-3 h-3 text-stone-400" />
+                  </span>
+                </div>
+              </button>
+
+              {/* Account Quick Dropdown */}
+              {isAccountDropdownOpen && (
+                <div
+                  onMouseLeave={() => setIsAccountDropdownOpen(false)}
+                  className="absolute right-0 top-full mt-1 w-64 bg-white text-stone-900 rounded-md shadow-2xl border border-stone-200 py-3 px-4 z-50"
+                >
+                  <div className="border-b border-stone-100 pb-2 mb-2">
+                    <p className="text-[10px] uppercase font-bold text-stone-500 tracking-wider">
+                      {userProfile?.isLoggedIn ? 'Active Account' : 'Account Status'}
+                    </p>
+                    <p className="text-sm font-bold text-stone-900 truncate">
+                      {userProfile?.isLoggedIn ? userProfile.name : 'Guest User'}
+                    </p>
+                    <p className="text-xs text-stone-500 truncate">
+                      {userProfile?.isLoggedIn ? userProfile.email : 'Click to Sign In with 5-digit PIN'}
+                    </p>
+                    <p className="text-xs text-amber-700 font-semibold mt-0.5">📍 Chandpur 246725</p>
+                  </div>
+                  <div className="space-y-1 text-xs">
+                    <button 
+                      onClick={() => { setIsAccountDropdownOpen(false); onOpenProfile(); }}
+                      className="w-full text-left py-2 px-2.5 hover:bg-amber-50 hover:text-amber-900 rounded font-medium flex items-center justify-between cursor-pointer"
+                    >
+                      <span>{userProfile?.isLoggedIn ? 'Edit Profile & Order Address' : 'Login / Sign Up'}</span>
+                      <User className="w-3.5 h-3.5 text-stone-400" />
+                    </button>
+                    <button 
+                      onClick={() => { setIsAccountDropdownOpen(false); setIsShopLocationModalOpen(true); }}
+                      className="w-full text-left py-2 px-2.5 hover:bg-amber-50 hover:text-amber-900 rounded font-medium flex items-center justify-between cursor-pointer"
+                    >
+                      <span>Owner's Shop Location</span>
+                      <MapPin className="w-3.5 h-3.5 text-amber-600" />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
-          </a>
+
+            {/* Cart Section Trigger with Badge */}
+            <button
+              onClick={onOpenCart}
+              className="flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-1.5 hover:border hover:border-white rounded transition-all cursor-pointer bg-stone-800/80 hover:bg-stone-800"
+              aria-label="View Cart"
+            >
+              <div className="relative">
+                <ShoppingCart className="w-5 h-5 sm:w-6 sm:h-6 text-amber-400" />
+                <span className="absolute -top-1.5 -right-2 bg-amber-500 text-stone-950 font-black text-[10px] sm:text-xs px-1 sm:px-1.5 py-0.2 rounded-full min-w-[18px] text-center shadow-sm">
+                  {cartCount}
+                </span>
+              </div>
+              <div className="hidden md:block text-left text-xs leading-tight">
+                <span className="text-stone-400 block text-[10px]">Cart</span>
+                <span className="font-bold text-white">₹{cartSubtotal}</span>
+              </div>
+            </button>
+          </div>
         </div>
 
-        {/* Owner's Shop Location in Header */}
-        <button
-          onClick={() => setIsShopLocationModalOpen(true)}
-          className="hidden lg:flex items-center gap-2 px-2.5 py-1.5 hover:border hover:border-white rounded text-left transition-all cursor-pointer shrink-0 bg-stone-850/50 hover:bg-stone-800"
-          title="Click to view shop address and Google Map location"
-        >
-          <MapPin className="w-4 h-4 text-amber-400 shrink-0" />
-          <div className="text-xs leading-none">
-            <span className="text-stone-400 block text-[10px] font-medium">Owner's Shop</span>
-            <span className="font-bold text-white tracking-tight flex items-center gap-0.5">
-              Station Rd, Chandpur
-              <ChevronDown className="w-3 h-3 text-stone-400" />
-            </span>
-          </div>
-        </button>
-
-        {/* Amazon Search Bar with Category Dropdown */}
-        <div className="flex-1 max-w-2xl relative mx-1 sm:mx-2">
-          <div className="flex items-center rounded-md overflow-hidden bg-white focus-within:ring-2 focus-within:ring-amber-500 shadow-inner">
-            <select
-              value={selectedSearchCategory}
-              onChange={(e) => {
-                const cat = e.target.value as CategoryKey;
-                setSelectedSearchCategory(cat);
-                onSelectCategory(cat);
-              }}
-              className="bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs px-2 sm:px-3 py-2.5 border-r border-stone-300 outline-none cursor-pointer hidden sm:block shrink-0 max-w-[130px] truncate"
-            >
-              <option value="all">All Sweets</option>
-              {CATEGORIES.map(c => (
-                <option key={c.key} value={c.key}>{c.name}</option>
-              ))}
-            </select>
-
+        {/* Row 2: Dedicated Full-Width Mobile Search Bar (Avoids any cramping on phones) */}
+        <div className="md:hidden px-3 pb-2 pt-0.5">
+          <div className="flex items-center rounded-lg overflow-hidden bg-white focus-within:ring-2 focus-within:ring-amber-500 shadow-inner">
             <div className="relative flex-1">
               <input
-                ref={searchInputRef}
                 type="text"
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
                 onFocus={() => setShowSearchSuggestions(true)}
-                placeholder="Search dark chocolate, kaju katli, macarons, sugar-free..."
-                className="w-full px-3 py-2 text-stone-900 text-sm outline-none placeholder:text-stone-400"
+                placeholder="Search dark chocolate, sweets, macarons..."
+                className="w-full px-3 py-2 text-stone-900 text-xs outline-none placeholder:text-stone-400"
               />
               {searchQuery && (
                 <button
@@ -196,121 +350,44 @@ export const Header: React.FC<HeaderProps> = ({
 
             <button 
               onClick={() => setShowSearchSuggestions(false)}
-              className="bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-stone-950 px-4 py-2.5 flex items-center justify-center transition-colors cursor-pointer shrink-0"
+              className="bg-amber-500 hover:bg-amber-600 text-stone-950 px-3.5 py-2 flex items-center justify-center cursor-pointer shrink-0"
               aria-label="Search"
             >
               <Search className="w-4 h-4 font-bold" />
             </button>
           </div>
 
-          {/* Search Dropdown Suggestions */}
+          {/* Mobile Search Dropdown Suggestions */}
           {showSearchSuggestions && !searchQuery && (
             <div 
               onMouseDown={(e) => e.preventDefault()}
-              className="absolute left-0 right-0 top-full mt-1 bg-white text-stone-900 shadow-2xl rounded-md border border-stone-200 p-3 z-50 animate-in fade-in slide-in-from-top-1"
+              className="mt-1 bg-white text-stone-900 shadow-xl rounded-md border border-stone-200 p-2.5 z-50 animate-in fade-in"
             >
               <div className="flex items-center justify-between mb-2">
-                <span className="text-[11px] font-bold uppercase tracking-wider text-stone-500">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-stone-500">
                   Popular Confectionery Searches
                 </span>
                 <button 
                   onClick={() => setShowSearchSuggestions(false)}
-                  className="text-xs text-stone-400 hover:text-stone-600 cursor-pointer"
+                  className="text-[11px] text-stone-400 hover:text-stone-600 cursor-pointer"
                 >
                   Close
                 </button>
               </div>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-1">
                 {popularSearches.map((term) => (
                   <button
                     key={term}
                     onClick={() => handleSuggestionClick(term)}
-                    className="text-xs bg-stone-100 hover:bg-amber-50 hover:text-amber-900 border border-stone-200 px-2.5 py-1 rounded transition-colors text-left cursor-pointer flex items-center gap-1.5"
+                    className="text-[11px] bg-stone-100 hover:bg-amber-50 hover:text-amber-900 border border-stone-200 px-2 py-0.5 rounded text-left cursor-pointer flex items-center gap-1"
                   >
-                    <Search className="w-3 h-3 text-stone-400" />
+                    <Search className="w-2.5 h-2.5 text-stone-400" />
                     <span>{term}</span>
                   </button>
                 ))}
               </div>
             </div>
           )}
-        </div>
-
-        {/* Right Action Zone (Account and Cart) */}
-        <div className="flex items-center gap-2 sm:gap-4 shrink-0">
-          {/* Account & Profile (Amazon Style) */}
-          <div className="relative">
-            <button
-              onClick={() => onOpenProfile()}
-              onMouseEnter={() => setIsAccountDropdownOpen(true)}
-              className="px-2.5 py-1 hover:border hover:border-white rounded text-left transition-all cursor-pointer flex items-center gap-1"
-            >
-              <div className="text-xs leading-none">
-                <span className="text-stone-400 block text-[11px]">
-                  {userProfile?.isLoggedIn ? `Hello, ${userProfile.name.split(' ')[0]}` : 'Hello, Sign In'}
-                </span>
-                <span className="font-bold text-white flex items-center gap-0.5">
-                  {userProfile?.isLoggedIn ? 'Your Account' : 'Login / Register'}
-                  <ChevronDown className="w-3 h-3 text-stone-400" />
-                </span>
-              </div>
-            </button>
-
-            {/* Account Quick Dropdown */}
-            {isAccountDropdownOpen && (
-              <div
-                onMouseLeave={() => setIsAccountDropdownOpen(false)}
-                className="absolute right-0 top-full mt-1 w-64 bg-white text-stone-900 rounded-md shadow-2xl border border-stone-200 py-3 px-4 z-50"
-              >
-                <div className="border-b border-stone-100 pb-2 mb-2">
-                  <p className="text-[10px] uppercase font-bold text-stone-500 tracking-wider">
-                    {userProfile?.isLoggedIn ? 'Active Account' : 'Account Status'}
-                  </p>
-                  <p className="text-sm font-bold text-stone-900 truncate">
-                    {userProfile?.isLoggedIn ? userProfile.name : 'Guest User'}
-                  </p>
-                  <p className="text-xs text-stone-500 truncate">
-                    {userProfile?.isLoggedIn ? userProfile.email : 'Click to Sign In with 5-digit PIN'}
-                  </p>
-                  <p className="text-xs text-amber-700 font-semibold mt-0.5">📍 Chandpur 246725</p>
-                </div>
-                <div className="space-y-1 text-xs">
-                  <button 
-                    onClick={() => { setIsAccountDropdownOpen(false); onOpenProfile(); }}
-                    className="w-full text-left py-2 px-2.5 hover:bg-amber-50 hover:text-amber-900 rounded font-medium flex items-center justify-between cursor-pointer"
-                  >
-                    <span>{userProfile?.isLoggedIn ? 'Edit Profile & Order Address' : 'Login / Sign Up'}</span>
-                    <User className="w-3.5 h-3.5 text-stone-400" />
-                  </button>
-                  <button 
-                    onClick={() => { setIsAccountDropdownOpen(false); setIsShopLocationModalOpen(true); }}
-                    className="w-full text-left py-2 px-2.5 hover:bg-amber-50 hover:text-amber-900 rounded font-medium flex items-center justify-between cursor-pointer"
-                  >
-                    <span>Owner's Shop Location</span>
-                    <MapPin className="w-3.5 h-3.5 text-amber-600" />
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-
-          {/* Cart Section Trigger with Badge */}
-          <button
-            onClick={onOpenCart}
-            className="flex items-center gap-2 px-3 py-1.5 hover:border hover:border-white rounded transition-all cursor-pointer bg-stone-800/80 hover:bg-stone-800"
-            aria-label="View Cart"
-          >
-            <div className="relative">
-              <ShoppingCart className="w-6 h-6 text-amber-400" />
-              <span className="absolute -top-1.5 -right-2 bg-amber-500 text-stone-950 font-black text-xs px-1.5 py-0.2 rounded-full min-w-[20px] text-center shadow-sm">
-                {cartCount}
-              </span>
-            </div>
-            <div className="hidden md:block text-left text-xs leading-tight">
-              <span className="text-stone-400 block text-[10px]">Cart</span>
-              <span className="font-bold text-white">₹{cartSubtotal}</span>
-            </div>
-          </button>
         </div>
       </div>
 

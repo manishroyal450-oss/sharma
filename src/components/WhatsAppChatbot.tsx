@@ -169,11 +169,11 @@ export const WhatsAppChatbot: React.FC<WhatsAppChatbotProps> = ({
 
   return (
     <>
-      {/* Floating WhatsApp Action Button */}
+      {/* Floating WhatsApp Action Button (Shown on desktop, mobile has dedicated bottom nav button) */}
       {!isOpen && (
-        <div className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40 flex items-center gap-2">
+        <div className="hidden md:flex fixed bottom-6 right-6 z-40 items-center gap-2">
           {/* Tooltip badge */}
-          <div className="hidden md:flex items-center bg-white text-stone-800 text-xs px-3 py-1.5 rounded-full shadow-lg border border-stone-200 gap-1.5 animate-bounce">
+          <div className="flex items-center bg-white text-stone-800 text-xs px-3 py-1.5 rounded-full shadow-lg border border-stone-200 gap-1.5 animate-bounce">
             <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
             <span className="font-semibold">Chat with AI Sommelier</span>
           </div>
@@ -193,7 +193,7 @@ export const WhatsAppChatbot: React.FC<WhatsAppChatbotProps> = ({
 
       {/* WhatsApp Chat Window Modal */}
       {isOpen && (
-        <div className="fixed bottom-0 sm:bottom-6 right-0 sm:right-6 z-50 w-full sm:w-[400px] h-[580px] max-h-screen bg-[#efeae2] rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-stone-300 animate-in slide-in-from-bottom duration-300">
+        <div className="fixed inset-x-0 bottom-0 sm:inset-auto sm:bottom-6 sm:right-6 z-50 w-full sm:w-[400px] h-[85vh] sm:h-[580px] bg-[#efeae2] rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-stone-300 animate-in slide-in-from-bottom duration-300">
           {/* WhatsApp Header */}
           <div className="bg-[#075e54] text-white p-3 sm:p-3.5 flex items-center justify-between shadow-md">
             <div className="flex items-center gap-2.5">

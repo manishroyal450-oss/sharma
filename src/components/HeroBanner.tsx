@@ -17,21 +17,21 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
   return (
     <section className="relative bg-gradient-to-b from-stone-900 via-stone-850 to-stone-100 pb-8 sm:pb-12">
       {/* Cinematic Hero Backdrop */}
-      <div className="relative w-full h-[320px] sm:h-[420px] md:h-[460px] overflow-hidden">
+      <div className="relative w-full min-h-[380px] sm:h-[420px] md:h-[460px] overflow-hidden flex items-center">
         <img
           src={heroBannerImg}
           alt="Luxury Belgian Confectionery and Chocolates"
           referrerPolicy="no-referrer"
-          className="w-full h-full object-cover object-center scale-105"
+          className="absolute inset-0 w-full h-full object-cover object-center scale-105"
         />
         {/* Soft Amazon-style Vignette Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/90 via-stone-950/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-stone-950/95 via-stone-950/75 to-transparent sm:to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-stone-950 via-transparent to-stone-950/40" />
 
         {/* Hero Content Overlay */}
-        <div className="absolute inset-0 max-w-7xl mx-auto px-4 sm:px-6 flex flex-col justify-center text-white">
-          <div className="max-w-xl space-y-3">
-            <div className="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 text-amber-300 px-3 py-1 rounded-full text-xs font-semibold backdrop-blur-xs">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-0 w-full text-white">
+          <div className="max-w-xl space-y-2.5 sm:space-y-3">
+            <div className="inline-flex items-center gap-2 bg-amber-500/20 border border-amber-400/40 text-amber-300 px-3 py-1 rounded-full text-[11px] sm:text-xs font-semibold backdrop-blur-xs">
               <Sparkles className="w-3.5 h-3.5 text-amber-400" />
               <span>Festive Confectionery Festival · Flat 25% Off</span>
             </div>
@@ -40,14 +40,14 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
               Royal Sweets & Handcrafted Belgian Cocoa
             </h1>
 
-            <p className="text-xs sm:text-sm md:text-base text-stone-200 line-clamp-2 sm:line-clamp-none font-light">
+            <p className="text-xs sm:text-sm md:text-base text-stone-200 line-clamp-3 sm:line-clamp-none font-light leading-relaxed">
               Made fresh every dawn with 100% pure A2 cow ghee, single-origin cacao beans, and certified vegetarian ingredients. Packaged in temperature-insulated cold boxes.
             </p>
 
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            <div className="flex flex-wrap items-center gap-2.5 sm:gap-3 pt-2">
               <button
                 onClick={onOpenDeals}
-                className="bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-stone-950 font-bold px-5 py-2.5 rounded-lg text-sm transition-all shadow-lg shadow-amber-950/50 flex items-center gap-2 cursor-pointer"
+                className="bg-amber-500 hover:bg-amber-600 active:bg-amber-700 text-stone-950 font-bold px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all shadow-lg shadow-amber-950/50 flex items-center gap-1.5 cursor-pointer"
               >
                 <span>Shop Today's Deals</span>
                 <ArrowRight className="w-4 h-4 font-bold" />
@@ -55,7 +55,7 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
 
               <button
                 onClick={() => onOpenWhatsApp("Hi, I want recommendations for gift hampers and sweets")}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-4 py-2.5 rounded-lg text-sm transition-all backdrop-blur-xs flex items-center gap-2 cursor-pointer shadow-md"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs sm:text-sm transition-all backdrop-blur-xs flex items-center gap-1.5 cursor-pointer shadow-md"
               >
                 <span>Ask WhatsApp AI</span>
               </button>
@@ -64,8 +64,8 @@ export const HeroBanner: React.FC<HeroBannerProps> = ({
         </div>
       </div>
 
-      {/* Amazon-Style Overlapping Feature Cards Grid */}
-      <div className="max-w-7xl mx-auto px-3 sm:px-6 -mt-16 sm:-mt-24 relative z-20">
+      {/* Feature Cards Grid (No overlapping on mobile, elegant overlay on tablet/desktop) */}
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 mt-4 sm:-mt-16 md:-mt-20 relative z-20">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {/* Card 1: Deal of the Day Spotlight */}
           <div className="bg-white rounded-xl p-4 shadow-xl border border-stone-200/80 flex flex-col justify-between hover:shadow-2xl transition-shadow group">
