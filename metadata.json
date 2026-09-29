@@ -1,0 +1,6 @@
+{
+  "name": "ChocoLuxe Confectionery - Amazon Style Store",
+  "description": "Premium confectionery e-commerce marketplace featuring artisan chocolates, royal sweets, gift hampers, full Amazon-style catalog and cart workflow, profile management, and WhatsApp AI shopping assistant.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
